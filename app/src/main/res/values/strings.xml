@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">WinDi Technical Task</string>
+    <string name="auth_title">Телефон</string>
+    <string name="auth_subtitle">Проверьте код страны и введите свой номер телефона</string>
+    <string name="phone_text_field_label">Номер телефона</string>
+    <string name="phone_text_field_placeholder">Введите ваш номер телефона</string>
+    <string name="verification_code_title">Введите код</string>
+    <string name="verification_code_subtitle">Мы отправили SMS с кодом проверки на Ваш телефон %1$s</string>
+    <string name="send_auth_code_fail_toast">Что-то пошло не так, попробуйте позже.</string>
+    <string name="phone_is_too_long">Номер телефона не должен превышать 30 символов.</string>
+</resources>
