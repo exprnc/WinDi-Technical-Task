@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.exprnc.winditechnicaltask.data.datasource.local.room.dao.UserDao
 import com.exprnc.winditechnicaltask.data.datasource.remote.api.UserService
 import com.exprnc.winditechnicaltask.data.datasource.remote.api.model.CheckAuthCodeRequestDto
+import com.exprnc.winditechnicaltask.data.datasource.remote.api.model.CheckAuthCodeResponseDto
 import com.exprnc.winditechnicaltask.data.datasource.remote.api.model.RegisterRequestDto
 import com.exprnc.winditechnicaltask.data.datasource.remote.api.model.SendAuthCodeRequestDto
 import com.exprnc.winditechnicaltask.data.mapper.CheckAuthCodeMapper
@@ -12,7 +13,9 @@ import com.exprnc.winditechnicaltask.data.mapper.SendAuthCodeMapper
 import com.exprnc.winditechnicaltask.data.mapper.UserEntityToModelMapper
 import com.exprnc.winditechnicaltask.data.mapper.UserModelToEntityMapper
 import com.exprnc.winditechnicaltask.domain.model.User
+import com.exprnc.winditechnicaltask.domain.repository.TokenRepository
 import com.exprnc.winditechnicaltask.domain.repository.UserRepository
+import com.exprnc.winditechnicaltask.utils.orDefault
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
@@ -22,8 +25,7 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val userService: UserService,
     private val userDao: UserDao,
-    private val sharedPreferences: SharedPreferences,
-    private val gson: Gson
+    private val tokenRepository: TokenRepository
 ) : UserRepository {
 
     private val sendAuthCodeMapper by lazy { SendAuthCodeMapper() }
@@ -41,6 +43,9 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun checkAuthCode(phone: String, code: String) = withContext(Dispatchers.IO) {
         val request = CheckAuthCodeRequestDto(phone = phone, code = code)
         val response = userService.checkAuthCode(request).apiErrorHandle()
+        if(response.isUserExists == true) {
+            tokenRepository.setToken(response.refreshToken.orDefault(), response.refreshToken.orDefault())
+        }
         checkAuthCodeMapper.map(response)
     }
 
@@ -51,6 +56,7 @@ class UserRepositoryImpl @Inject constructor(
             userName = username
         )
         val response = userService.register(request).apiErrorHandle()
+        tokenRepository.setToken(response.refreshToken.orDefault(), response.refreshToken.orDefault())
         registerMapper.map(response)
     }
 
@@ -60,21 +66,5 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun getLocalUser() = withContext(Dispatchers.IO) {
         userEntityToModelMapper.map(userDao.getUser())
-    }
-
-    override suspend fun getToken() = withContext(Dispatchers.IO) {
-        val tokenJson = sharedPreferences.getString("TOKEN_KEY", null)
-        if (tokenJson != null) {
-            val type = object : TypeToken<Pair<String, String>>() {}.type
-            gson.fromJson(tokenJson, type)
-        } else {
-            Pair("", "")
-        }
-    }
-
-    override suspend fun setToken(refreshToken: String, accessToken: String) = withContext(Dispatchers.IO) {
-        val token = Pair(refreshToken, accessToken)
-        val tokenJson = gson.toJson(token)
-        sharedPreferences.edit().putString("TOKEN_KEY", tokenJson).apply()
     }
 }

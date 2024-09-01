@@ -1,7 +1,6 @@
 package com.exprnc.winditechnicaltask.di
 
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
 import androidx.security.crypto.EncryptedSharedPreferences
@@ -10,7 +9,9 @@ import com.exprnc.winditechnicaltask.data.datasource.local.room.dao.UserDao
 import com.exprnc.winditechnicaltask.data.datasource.local.room.database.AppDatabase
 import com.exprnc.winditechnicaltask.data.datasource.remote.api.UserService
 import com.exprnc.winditechnicaltask.data.datasource.remote.api.adapter.ApiResponseTypeAdapterFactory
+import com.exprnc.winditechnicaltask.data.repository.TokenRepositoryImpl
 import com.exprnc.winditechnicaltask.data.repository.UserRepositoryImpl
+import com.exprnc.winditechnicaltask.domain.repository.TokenRepository
 import com.exprnc.winditechnicaltask.domain.repository.UserRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -30,6 +31,12 @@ interface AppModule {
         impl: UserRepositoryImpl,
     ): UserRepository
 
+    @Binds
+    @Singleton
+    fun bindTokenRepository(
+        impl: TokenRepositoryImpl,
+    ): TokenRepository
+
     companion object {
 
         @Singleton
@@ -42,9 +49,9 @@ interface AppModule {
 
         @Singleton
         @Provides
-        fun provideDatabase(context: Application): AppDatabase {
+        fun provideDatabase(application: Application): AppDatabase {
             return Room.databaseBuilder(
-                context,
+                application,
                 AppDatabase::class.java,
                 "app_database"
             ).build()
@@ -58,13 +65,13 @@ interface AppModule {
 
         @Singleton
         @Provides
-        fun provideEncryptedSharedPreferences(context: Application): SharedPreferences {
-            val masterKey = MasterKey.Builder(context)
+        fun provideEncryptedSharedPreferences(application: Application): SharedPreferences {
+            val masterKey = MasterKey.Builder(application)
                 .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                 .build()
 
             return EncryptedSharedPreferences.create(
-                context,
+                application,
                 "secret_shared_prefs",
                 masterKey,
                 EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,

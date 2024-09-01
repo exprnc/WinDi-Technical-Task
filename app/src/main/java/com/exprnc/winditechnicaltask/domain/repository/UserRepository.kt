@@ -13,7 +13,4 @@ interface UserRepository {
 
     suspend fun updateLocalUser(user: User)
     suspend fun getLocalUser(): User
-
-    suspend fun getToken(): Pair<String, String>
-    suspend fun setToken(refreshToken: String, accessToken: String)
 }

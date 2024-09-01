@@ -1,5 +1,6 @@
 package com.exprnc.winditechnicaltask.presentation.features.auth
 
+import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,11 +10,14 @@ import com.exprnc.winditechnicaltask.core.BaseViewModel
 import com.exprnc.winditechnicaltask.core.Intent
 import com.exprnc.winditechnicaltask.core.ViewEvent
 import com.exprnc.winditechnicaltask.domain.repository.UserRepository
+import com.exprnc.winditechnicaltask.presentation.features.auth.verificationcode.VerificationCodeArgs
+import com.exprnc.winditechnicaltask.presentation.features.auth.verificationcode.VerificationCodeScreen
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import java.util.Locale
 
 class AuthViewModel @AssistedInject constructor(
+    private val application: Application,
     private val userRepository: UserRepository
 ) : BaseViewModel() {
 
@@ -43,26 +47,33 @@ class AuthViewModel @AssistedInject constructor(
                 setState(stateConfigurator.defineFragmentState())
             }
             is AuthIntent.OnPhoneInput -> {
-                if(stateConfigurator.phone == intent.field) return
-                stateConfigurator.phone = intent.field
+                val phoneMaxLength = PHONE_MAX_LENGTH - stateConfigurator.country.countryPhoneNumberCode.length
+                var filteredPhone = intent.field.filter { it.isDigit() }
+                if(filteredPhone.length > phoneMaxLength) {
+                    emitEvent(ViewEvent.Toast.Text(application.resources.getString(R.string.phone_is_too_long, PHONE_MAX_LENGTH)))
+                }
+                filteredPhone = filteredPhone.take(phoneMaxLength)
+                if(stateConfigurator.phone == filteredPhone) return
+                stateConfigurator.phone = filteredPhone
                 setState(stateConfigurator.defineFragmentState())
-            }
-            is AuthIntent.OnPhoneNumberTooLong -> {
-                emitEvent(ViewEvent.Toast.Id(R.string.phone_is_too_long))
             }
             is Intent.Back -> exit()
             is Intent.OnConfigurationChanged -> setState(stateConfigurator.defineFragmentState())
         }
     }
 
+    // Я бы не стал делать повторный запрос на sendAuthCode, если человек ввёл номер телефона
+    // и на экране VerificationCode сделал навигацию назад, а на экране Auth обратно нажал на FAB не меняя номер телефона
+    // просто на сервере нету задержки на запросы и я не стал тратить время на это
+
     private fun sendAuthCode() {
+        val currentPhone = stateConfigurator.country.countryPhoneNumberCode + stateConfigurator.phone
         launchCoroutine(needLoader = true) {
             runCatching {
-                userRepository.sendAuthCode(stateConfigurator.country.countryPhoneNumberCode + stateConfigurator.phone)
+                userRepository.sendAuthCode(currentPhone)
             }.onSuccess {
-                println(it)
                 if(it.isSuccess) {
-//                    emitEvent(ViewEvent.Navigation())
+                    emitEvent(ViewEvent.Navigation(VerificationCodeScreen(VerificationCodeArgs(currentPhone))))
                 } else {
                     emitEvent(ViewEvent.Toast.Id(R.string.send_auth_code_fail_toast))
                 }
@@ -72,8 +83,8 @@ class AuthViewModel @AssistedInject constructor(
         }
     }
 
-    private fun exit(data: Bundle = AuthScreen.Result.createBundleCanceled()) {
-        emitEvent(ViewEvent.PopBackStack(data))
+    private fun exit() {
+        emitEvent(ViewEvent.PopBackStack())
     }
 
     private inner class StateConfigurator {
@@ -91,6 +102,9 @@ class AuthViewModel @AssistedInject constructor(
     }
 
     companion object {
+
+        private const val PHONE_MAX_LENGTH = 30
+
         fun provideFactory(
             assistedFactory: Factory
         ): ViewModelProvider.Factory {

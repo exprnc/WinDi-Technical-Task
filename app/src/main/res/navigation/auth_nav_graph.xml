@@ -7,6 +7,29 @@
 
     <fragment
         android:id="@+id/authFragment"
-        android:name="com.exprnc.winditechnicaltask.presentation.features.auth.AuthFragment"/>
+        android:name="com.exprnc.winditechnicaltask.presentation.features.auth.AuthFragment">
+        <action
+            android:id="@+id/action_authFragment_to_verificationCodeFragment"
+            app:destination="@id/verificationCodeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/verificationCodeFragment"
+        android:name="com.exprnc.winditechnicaltask.presentation.features.auth.verificationcode.VerificationCodeFragment">
+        <action
+            android:id="@+id/action_verificationCodeFragment_to_regFragment"
+            app:destination="@id/regFragment" />
+        <action
+            android:id="@+id/action_verificationCodeFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/regFragment"
+        android:name="com.exprnc.winditechnicaltask.presentation.features.auth.registration.RegFragment">
+        <action
+            android:id="@+id/action_regFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+    </fragment>
 
 </navigation>

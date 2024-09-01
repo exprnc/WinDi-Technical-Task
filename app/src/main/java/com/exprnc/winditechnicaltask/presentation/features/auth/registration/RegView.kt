@@ -1,4 +1,4 @@
-package com.exprnc.winditechnicaltask.presentation.features.auth
+package com.exprnc.winditechnicaltask.presentation.features.auth.registration
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,37 +26,30 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.arpitkatiyarprojects.countrypicker.CountryPickerOutlinedTextField
-import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
 import com.exprnc.winditechnicaltask.R
 import com.exprnc.winditechnicaltask.core.Intent
+import com.exprnc.winditechnicaltask.presentation.features.auth.verificationcode.VerificationCodeIntent
 
 @Preview(showSystemUi = true)
 @Composable
-private fun PreviewAuthView() {
-    AuthView(
-        viewState = AuthState.DefaultState(
-            phone = "9639090238",
-            CountryDetails(
-                countryCode = "US",
-                countryPhoneNumberCode = "",
-                countryName = "Russia",
-                countryFlag = 0
-            )
-        ),
+private fun PreviewRegView() {
+    RegView(
+        RegState.DefaultState(phone = "+79639090238", name = "", username = "")
     )
 }
 
 @Composable
-fun AuthView(
-    viewState: AuthState.DefaultState,
+fun RegView(
+    viewState: RegState.DefaultState,
     onIntent: (Intent) -> Unit = {}
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize().imePadding(),
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding(),
         floatingActionButton = {
             FloatingAction(icon = Icons.AutoMirrored.Filled.ArrowForward) {
-                onIntent(AuthIntent.OnNextPressed)
+                onIntent(RegIntent.OnNextPressed)
             }
         }
     ) { innerPadding ->
@@ -70,29 +64,68 @@ fun AuthView(
                     .fillMaxWidth()
                     .align(Alignment.Center)
             ) {
-                AuthTitles()
-                CountryPickerOutlinedTextField(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .fillMaxWidth(),
-                    mobileNumber = viewState.phone,
-                    onMobileNumberChange = { phoneNumber ->
-                        onIntent(AuthIntent.OnPhoneInput(field = phoneNumber))
-                    },
-                    onCountrySelected = { country ->
-                        onIntent(AuthIntent.OnRegionSelected(country))
-                    },
-                    defaultCountryCode = viewState.country.countryCode,
-                    label = {
-                        Text(text = stringResource(id = R.string.phone_text_field_label))
-                    },
-                    placeholder = {
-                        Text(text = stringResource(id = R.string.phone_text_field_placeholder))
-                    },
-                )
+                RegTitles()
+                RegInputFields(viewState, onIntent)
             }
         }
     }
+}
+
+@Composable
+private fun RegInputFields(
+    viewState: RegState.DefaultState,
+    onIntent: (Intent) -> Unit = {}
+) {
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        enabled = false,
+        value = viewState.phone,
+        onValueChange = {},
+        readOnly = true,
+        label = { Text(text = stringResource(id = R.string.phone_text_field_label))}
+    )
+
+    Spacer(modifier = Modifier.height(8.dp))
+
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = viewState.name,
+        onValueChange = { newName -> onIntent(RegIntent.OnNameInput(newName)) },
+        label = { Text(stringResource(id = R.string.reg_text_field_name_label)) },
+    )
+
+    Spacer(modifier = Modifier.height(8.dp))
+
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = viewState.username,
+        onValueChange = { newUsername -> onIntent(RegIntent.OnUsernameInput(newUsername)) },
+        label = { Text(stringResource(id = R.string.reg_text_field_username_label)) },
+    )
+}
+
+@Composable
+private fun RegTitles() {
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = stringResource(id = R.string.reg_title),
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
+        textAlign = TextAlign.Center,
+    )
+
+    Spacer(modifier = Modifier.height(8.dp))
+
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = stringResource(id = R.string.reg_subtitle),
+        fontWeight = FontWeight.W400,
+        fontSize = 16.sp,
+        color = Color.Gray,
+        textAlign = TextAlign.Center,
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
@@ -105,28 +138,4 @@ private fun FloatingAction(icon: ImageVector, onClick: () -> Unit) {
             contentDescription = ""
         )
     }
-}
-
-@Composable
-private fun AuthTitles() {
-    Text(
-        modifier = Modifier.fillMaxWidth(),
-        text = stringResource(id = R.string.auth_title),
-        fontWeight = FontWeight.Bold,
-        fontSize = 24.sp,
-        textAlign = TextAlign.Center,
-    )
-
-    Spacer(modifier = Modifier.height(8.dp))
-
-    Text(
-        modifier = Modifier.fillMaxWidth(),
-        text = stringResource(id = R.string.auth_subtitle),
-        fontWeight = FontWeight.W400,
-        fontSize = 16.sp,
-        color = Color.Gray,
-        textAlign = TextAlign.Center,
-    )
-
-    Spacer(modifier = Modifier.height(16.dp))
 }

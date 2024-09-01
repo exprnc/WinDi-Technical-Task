@@ -4,8 +4,23 @@
     <string name="auth_subtitle">Проверьте код страны и введите свой номер телефона</string>
     <string name="phone_text_field_label">Номер телефона</string>
     <string name="phone_text_field_placeholder">Введите ваш номер телефона</string>
+    <string name="phone_is_too_long">Номер телефона не должен превышать %1$d символов.</string>
+    <string name="send_auth_code_fail_toast">Что-то пошло не так, попробуйте позже.</string>
     <string name="verification_code_title">Введите код</string>
     <string name="verification_code_subtitle">Мы отправили SMS с кодом проверки на Ваш телефон %1$s</string>
-    <string name="send_auth_code_fail_toast">Что-то пошло не так, попробуйте позже.</string>
-    <string name="phone_is_too_long">Номер телефона не должен превышать 30 символов.</string>
+    <string name="verification_code_not_filled">Код должен состоять из %1$d цифр</string>
+    <string name="reg_title">Информация о себе</string>
+    <string name="reg_subtitle">Введите своё имя и username</string>
+    <string name="reg_text_field_name_label">Имя</string>
+    <string name="reg_text_field_username_label">Username</string>
+    <string name="name_is_too_long">Имя не должно превышать %1$d символов.</string>
+    <string name="username_has_invalid_chars">
+        Username должен содержать только:
+        ◦ Заглавные латинские буквы: от A до Z
+        ◦ Строчные латинские буквы: от a до z
+        ◦ Цифры от 0 до 9
+        ◦ Символы: -_
+    </string>
+    <string name="username_is_too_long">Username не должен превышать %1$d символов.</string>
+    <string name="username_is_too_short">Минимальное количество символов в Username %1$d.</string>
 </resources>
