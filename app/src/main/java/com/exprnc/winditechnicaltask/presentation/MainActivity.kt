@@ -12,10 +12,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        supportFragmentManager.commit {
-            val navHost = BaseNavHostFragment.create(R.navigation.auth_nav_graph)
-            replace(R.id.frameLayout, navHost)
-            addToBackStack(null)
+        if(savedInstanceState == null) {
+            supportFragmentManager.commit {
+                val navHost = BaseNavHostFragment.create(R.navigation.auth_nav_graph)
+                replace(R.id.frameLayout, navHost)
+                addToBackStack(null)
+            }
         }
     }
 }

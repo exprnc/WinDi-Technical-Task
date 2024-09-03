@@ -24,6 +24,11 @@ abstract class BaseFragment : Fragment() {
         return binding.root
     }
 
+    override fun onStop() {
+        super.onStop()
+        retainInstance = true
+    }
+
     open fun onSetupView() {}
 
     fun onBackPress(callback: OnBackPressedCallback.() -> Unit) {
