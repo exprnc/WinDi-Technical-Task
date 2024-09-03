@@ -17,6 +17,9 @@ securityCrypto = "1.1.0-alpha06"
 jetbrainsKotlinJvm = "2.0.0"
 countryPicker = "1.0.3"
 appcompat = "1.7.0"
+coil = "2.7.0"
+kjwt = "0.9.0"
+systemUiController = "0.35.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,11 +48,12 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
 country-picker = { group = "com.github.arpitkatiyar1999", name = "Country-Picker", version.ref = "countryPicker" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+kjwt = { group = "io.github.nefilim.kjwt", name = "kjwt-core", version.ref = "kjwt" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compiler-ksp = { id = "com.google.devtools.ksp", version.ref = "compilerKsp" }
-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize",  version.ref = "kotlin"  }

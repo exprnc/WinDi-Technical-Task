@@ -8,7 +8,13 @@ import com.exprnc.winditechnicaltask.R
 import com.exprnc.winditechnicaltask.core.BaseViewModel
 import com.exprnc.winditechnicaltask.core.Intent
 import com.exprnc.winditechnicaltask.core.ViewEvent
+import com.exprnc.winditechnicaltask.domain.model.User.Companion.NAME_MAX_LENGTH
+import com.exprnc.winditechnicaltask.domain.model.User.Companion.USERNAME_ALLOWED_CHARS
+import com.exprnc.winditechnicaltask.domain.model.User.Companion.USERNAME_MAX_LENGTH
+import com.exprnc.winditechnicaltask.domain.model.User.Companion.USERNAME_MIN_LENGTH
 import com.exprnc.winditechnicaltask.domain.repository.UserRepository
+import com.exprnc.winditechnicaltask.presentation.features.chats.ChatsScreen
+import com.exprnc.winditechnicaltask.presentation.features.profile.ProfileScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -70,9 +76,8 @@ class RegViewModel @AssistedInject constructor(
             runCatching {
                 userRepository.register(phone = args.phone, name = stateConfigurator.name, username = stateConfigurator.username)
             }.onSuccess {
-                println(it)
-//                emitEvent(ViewEvent.PopBackStack())
-//                emitEvent(ViewEvent.Navigation())  Навигация на экран чатов
+                emitEvent(ViewEvent.PopBackStack())
+                emitEvent(ViewEvent.Navigation(ChatsScreen()))
             }.onFailure { e ->
                 e.message?.let { emitEvent(ViewEvent.Toast.Text(it)) }
             }
@@ -93,11 +98,6 @@ class RegViewModel @AssistedInject constructor(
     }
 
     companion object {
-
-        private const val NAME_MAX_LENGTH = 128
-        private const val USERNAME_MAX_LENGTH = 32
-        private const val USERNAME_MIN_LENGTH = 5
-        private const val USERNAME_ALLOWED_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
 
         fun provideFactory(
             args: RegArgs,

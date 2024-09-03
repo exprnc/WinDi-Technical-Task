@@ -8,15 +8,17 @@ import androidx.room.PrimaryKey
 data class UserEntity(
     @PrimaryKey val id: Long?,
     val name: String?,
-    val username: String?, //
-    val birthday: Long?, //
-    val city: String?, //
+    val username: String?,
+    val birthday: Long?,
+    val city: String?,
     val vk: String?,
     val instagram: String?,
     val status: String?,
-    val avatar: String?, //
-    val phone: String?, //
-    @Embedded(prefix = "avatars") val avatars: Avatars //
+    val avatar: String?,
+    val phone: String?,
+    @Embedded(prefix = "avatars") val avatars: Avatars,
+    val fileName: String?,
+    val base64: String?
 )
 
 data class Avatars(

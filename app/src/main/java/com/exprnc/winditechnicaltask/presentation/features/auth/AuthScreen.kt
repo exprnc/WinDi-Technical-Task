@@ -5,7 +5,7 @@ import com.exprnc.winditechnicaltask.R
 import com.exprnc.winditechnicaltask.core.Screen
 
 class AuthScreen : Screen<Int>(
-    route = R.id.authFragment,
+    route = R.id.auth_nav_graph,
     requestKey = TAG
 ) {
     companion object {

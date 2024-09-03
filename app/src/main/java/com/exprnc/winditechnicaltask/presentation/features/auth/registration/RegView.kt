@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.exprnc.winditechnicaltask.R
 import com.exprnc.winditechnicaltask.core.Intent
-import com.exprnc.winditechnicaltask.presentation.features.auth.verificationcode.VerificationCodeIntent
 
 @Preview(showSystemUi = true)
 @Composable

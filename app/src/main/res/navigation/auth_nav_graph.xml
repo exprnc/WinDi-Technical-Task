@@ -2,8 +2,14 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph"
+    android:id="@+id/auth_nav_graph"
     app:startDestination="@id/authFragment">
+
+    <include app:graph="@navigation/chats_nav_graph" />
+    <include app:graph="@navigation/tasks_nav_graph" />
+    <include app:graph="@navigation/profile_nav_graph" />
+
+<!--    actions я добавил только для демонстрации навигации-->
 
     <fragment
         android:id="@+id/authFragment"

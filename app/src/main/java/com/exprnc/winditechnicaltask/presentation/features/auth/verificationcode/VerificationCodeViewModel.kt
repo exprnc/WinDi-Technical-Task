@@ -11,6 +11,8 @@ import com.exprnc.winditechnicaltask.core.ViewEvent
 import com.exprnc.winditechnicaltask.domain.repository.UserRepository
 import com.exprnc.winditechnicaltask.presentation.features.auth.registration.RegArgs
 import com.exprnc.winditechnicaltask.presentation.features.auth.registration.RegScreen
+import com.exprnc.winditechnicaltask.presentation.features.chats.ChatsScreen
+import com.exprnc.winditechnicaltask.presentation.features.profile.ProfileScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -59,8 +61,7 @@ class VerificationCodeViewModel @AssistedInject constructor(
             }.onSuccess {
                 emitEvent(ViewEvent.PopBackStack())
                 if(it.isUserExists) {
-                    println("User exist")
-//                    emitEvent(ViewEvent.Navigation())  Навигация на экран чатов
+                    emitEvent(ViewEvent.Navigation(ChatsScreen()))
                 } else {
                     emitEvent(ViewEvent.Navigation(RegScreen(RegArgs(args.phone))))
                 }

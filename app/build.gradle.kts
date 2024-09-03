@@ -82,4 +82,6 @@ dependencies {
     implementation(libs.security.crypto)
     implementation(libs.country.picker)
     implementation(libs.appcompat)
+    implementation(libs.coil)
+    implementation(libs.kjwt)
 }

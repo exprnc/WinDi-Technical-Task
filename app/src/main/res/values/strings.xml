@@ -14,13 +14,17 @@
     <string name="reg_text_field_name_label">Имя</string>
     <string name="reg_text_field_username_label">Username</string>
     <string name="name_is_too_long">Имя не должно превышать %1$d символов.</string>
-    <string name="username_has_invalid_chars">
-        Username должен содержать только:
-        ◦ Заглавные латинские буквы: от A до Z
-        ◦ Строчные латинские буквы: от a до z
-        ◦ Цифры от 0 до 9
-        ◦ Символы: -_
-    </string>
+    <string name="username_has_invalid_chars">Username: от A до Z, от 0 до 9, -_</string>
     <string name="username_is_too_long">Username не должен превышать %1$d символов.</string>
     <string name="username_is_too_short">Минимальное количество символов в Username %1$d.</string>
+    <string name="edit_button">Редактировать</string>
+    <string name="profile_phone_subtitle">Номер телефона</string>
+    <string name="profile_username_subtitle">Username</string>
+    <string name="profile_city_subtitle">Город проживания</string>
+    <string name="profile_birthday_subtitle">Дата рождения</string>
+    <string name="profile_zodiac_subtitle">Знак зодиака</string>
+    <string name="profile_account_title">Аккаунт</string>
+    <string name="choose_photo">Выбрать фотографию</string>
+    <string name="click_again">Нажмите ещё раз</string>
+    <string name="edit_profile_title">Редактировать профиль</string>
 </resources>

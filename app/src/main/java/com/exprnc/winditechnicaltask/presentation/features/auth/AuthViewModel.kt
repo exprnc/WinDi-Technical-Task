@@ -9,6 +9,7 @@ import com.exprnc.winditechnicaltask.R
 import com.exprnc.winditechnicaltask.core.BaseViewModel
 import com.exprnc.winditechnicaltask.core.Intent
 import com.exprnc.winditechnicaltask.core.ViewEvent
+import com.exprnc.winditechnicaltask.domain.model.User.Companion.PHONE_MAX_LENGTH
 import com.exprnc.winditechnicaltask.domain.repository.UserRepository
 import com.exprnc.winditechnicaltask.presentation.features.auth.verificationcode.VerificationCodeArgs
 import com.exprnc.winditechnicaltask.presentation.features.auth.verificationcode.VerificationCodeScreen
@@ -23,16 +24,7 @@ class AuthViewModel @AssistedInject constructor(
 
     private val stateConfigurator = StateConfigurator()
 
-    override val screenResults: (String, Bundle) -> Unit = { key: String, data: Bundle ->
-//        when (key) {
-//            NewCardScreen.TAG -> {//todo просто как пример, тут должны быть экраны, на которые ты переходишь из этого экрана
-//                when (NewCardScreen.getResult(data)) {// а эта обработка на экране откуда вызываешь этот экран NewCardFragment
-//                    NewCardScreen.Result.CANCELED -> Unit
-//                    NewCardScreen.Result.CARD_CREATED -> Unit
-//                }
-//            }
-//        }
-    }
+    override val screenResults: (String, Bundle) -> Unit = { key: String, data: Bundle -> }
 
     init {
         setState(stateConfigurator.defineFragmentState())
@@ -102,8 +94,6 @@ class AuthViewModel @AssistedInject constructor(
     }
 
     companion object {
-
-        private const val PHONE_MAX_LENGTH = 30
 
         fun provideFactory(
             assistedFactory: Factory

@@ -15,7 +15,7 @@ import com.exprnc.winditechnicaltask.core.Intent
 import com.exprnc.winditechnicaltask.core.LoadingState
 import com.exprnc.winditechnicaltask.core.ViewEvent
 import com.exprnc.winditechnicaltask.presentation.features.auth.verificationcode.VerificationCodeScreen
-import com.exprnc.winditechnicaltask.presentation.ui.components.LoadingPageBlocker
+import com.exprnc.winditechnicaltask.presentation.ui.components.loading.LoadingPageBlocker
 import com.exprnc.winditechnicaltask.utils.navigateViaScreenRoute
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -86,7 +86,7 @@ class RegFragment : BaseFragment() {
                 is ViewEvent.PopBackStack -> {
                     val fm = parentFragmentManager
                     navController.popBackStack()
-                    fm.setFragmentResult(VerificationCodeScreen.TAG, event.bundle)
+                    fm.setFragmentResult(RegScreen.TAG, event.bundle)
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)

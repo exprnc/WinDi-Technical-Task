@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.annotation.NavigationRes
 import androidx.navigation.fragment.NavHostFragment
 
-class FixedNavHostFragment : NavHostFragment() {
+class BaseNavHostFragment : NavHostFragment() {
 
     override fun onDestroyView() {
         try {
@@ -20,7 +20,7 @@ class FixedNavHostFragment : NavHostFragment() {
         fun create(
             @NavigationRes graphResId: Int,
             startDestinationArgs: Bundle? = null
-        ): FixedNavHostFragment {
+        ): BaseNavHostFragment {
             var b: Bundle? = null
             if (graphResId != 0) {
                 b = Bundle()
@@ -32,7 +32,7 @@ class FixedNavHostFragment : NavHostFragment() {
                 }
                 b.putBundle("android-support-nav:fragment:startDestinationArgs", startDestinationArgs)
             }
-            val result = FixedNavHostFragment()
+            val result = BaseNavHostFragment()
             if (b != null) {
                 result.arguments = b
             }

@@ -10,15 +10,12 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +26,7 @@ import com.arpitkatiyarprojects.countrypicker.CountryPickerOutlinedTextField
 import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
 import com.exprnc.winditechnicaltask.R
 import com.exprnc.winditechnicaltask.core.Intent
+import com.exprnc.winditechnicaltask.presentation.ui.components.floatingaction.FloatingAction
 
 @Preview(showSystemUi = true)
 @Composable
@@ -92,18 +90,6 @@ fun AuthView(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun FloatingAction(icon: ImageVector, onClick: () -> Unit) {
-    FloatingActionButton(
-        onClick = onClick,
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = ""
-        )
     }
 }
 

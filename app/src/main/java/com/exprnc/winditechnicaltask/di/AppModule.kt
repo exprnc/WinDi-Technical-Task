@@ -9,15 +9,18 @@ import com.exprnc.winditechnicaltask.data.datasource.local.room.dao.UserDao
 import com.exprnc.winditechnicaltask.data.datasource.local.room.database.AppDatabase
 import com.exprnc.winditechnicaltask.data.datasource.remote.api.UserService
 import com.exprnc.winditechnicaltask.data.datasource.remote.api.adapter.ApiResponseTypeAdapterFactory
+import com.exprnc.winditechnicaltask.data.repository.AuthInterceptor
 import com.exprnc.winditechnicaltask.data.repository.TokenRepositoryImpl
 import com.exprnc.winditechnicaltask.data.repository.UserRepositoryImpl
 import com.exprnc.winditechnicaltask.domain.repository.TokenRepository
 import com.exprnc.winditechnicaltask.domain.repository.UserRepository
+import com.exprnc.winditechnicaltask.utils.BASE_URL
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -81,9 +84,18 @@ interface AppModule {
 
         @Singleton
         @Provides
-        fun provideUserService(gson: Gson): UserService {
+        fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient {
+            return OkHttpClient.Builder()
+                .addInterceptor(authInterceptor)
+                .build()
+        }
+
+        @Singleton
+        @Provides
+        fun provideUserService(gson: Gson, okHttpClient: OkHttpClient): UserService {
             return Retrofit.Builder()
-                .baseUrl("https://plannerok.ru")
+                .baseUrl(BASE_URL)
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
                 .create(UserService::class.java)

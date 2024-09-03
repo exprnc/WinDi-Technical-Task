@@ -14,7 +14,7 @@ import com.exprnc.winditechnicaltask.core.BaseFragment
 import com.exprnc.winditechnicaltask.core.Intent
 import com.exprnc.winditechnicaltask.core.LoadingState
 import com.exprnc.winditechnicaltask.core.ViewEvent
-import com.exprnc.winditechnicaltask.presentation.ui.components.LoadingPageBlocker
+import com.exprnc.winditechnicaltask.presentation.ui.components.loading.LoadingPageBlocker
 import com.exprnc.winditechnicaltask.utils.navigateViaScreenRoute
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
